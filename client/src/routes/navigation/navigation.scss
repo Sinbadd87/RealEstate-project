@@ -1,0 +1,85 @@
+@use "../../index";
+
+.navigationContainer {
+    height: 61px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-bottom: index.$bg-primary 1px solid;
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 4px 8px rgba(40, 45, 60, .04), 0 0 2px rgba(40, 45, 60, .05), 0 0 1px rgba(40, 45, 60, .04);
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: index.$acent;
+}
+
+.navigationLinks {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navigationLinksSignIn {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.navigationLinkItem {
+    padding: 10px 0 10px 30px;
+    cursor: pointer;
+    color: index.$text-primary;
+
+    &:hover {
+        color: index.$acent;
+    }
+}
+
+.btnSingIn {
+    background-color: #f4f6fb;
+    border: none;
+    border-radius: 25px;
+    color: index.$acent;
+    font-size: 14px;
+    padding: 13px 24px;
+    font-weight: 500;
+    transition: all .3s ease;
+
+    &:hover {
+        border-radius: 5px;
+    }
+}
+
+.iSignIn {
+    display: none;
+}
+
+@media screen and (max-width: 720px) {
+
+    .navigationLinks,
+    .btnSingIn {
+        display: none;
+    }
+
+    .navigationLinksSignIn {
+        width: 100%;
+    }
+
+    .iSignIn {
+        display: flex;
+        color: index.$acent;
+        font-size: 1.5rem;
+    }
+
+}

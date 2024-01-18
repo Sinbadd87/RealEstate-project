@@ -1,0 +1,39 @@
+$bg-primary: #fff;
+$bg-secondary: #f4f6fb;
+$bg-tertiary: #ecf0f8;
+$bg-prim-to-ter: #fff;
+$bg-ter-to-sec: #ecf0f8;
+$bg-contrast: #fff;
+$bg-stone-to-accent: #282d3c;
+$bg-tag-with-opacity: #fff;
+$bg-icon: #8c94a8;
+$bg-wind-hover: #f4f6fb;
+$text-primary: #2a2a30;
+$text-secondary: #282d3c;
+$text-secondary-active: #788095;
+$acent: #007bfb;
+$lines-pimary: #ecf0f8;
+$links-hover: #007bfb;
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', Helvetica, sans-serif;
+    color: $text-primary;
+}
+
+a {
+    text-decoration: none;
+    color: $text-primary;
+}
+
+@media screen and (max-width: 720px) {
+    body {
+        margin: 16px;
+    }
+
+}

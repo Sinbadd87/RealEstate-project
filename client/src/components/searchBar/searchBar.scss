@@ -1,0 +1,78 @@
+@use '../../index';
+
+.searchBarContainer {
+    width: 100%;
+    padding: 0 40px;
+    border: index.$bg-primary 1px solid;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(40, 45, 60, .04), 0 0 2px rgba(40, 45, 60, .05), 0 0 1px rgba(40, 45, 60, .04);
+    background-color: white;
+}
+
+form {
+    height: 160px;
+}
+
+h6 {
+    color: index.$text-secondary-active;
+    font-weight: 400;
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+.formContainer {
+    display: flex;
+    height: 56px;
+    justify-content: space-between;
+
+}
+
+.submitAndClearContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+
+    .clearFilter,
+    .resultSubmit {
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.7;
+            transition: ease 0.5;
+        }
+    }
+
+    .resultSubmit {
+        color: index.$acent;
+    }
+}
+
+
+
+.buttons {
+    height: 56px;
+    width: 384px;
+    display: flex;
+    justify-content: space-between;
+
+    .btn {
+        background-color: #f4f6fb;
+        border: none;
+        border-radius: 8px;
+        color: index.$text-secondary;
+        font-size: 16px;
+        padding: 13px 24px;
+        font-weight: 600;
+        transition: all .3s ease;
+
+        &:hover {
+            border-radius: 25px;
+            color: index.$acent;
+        }
+    }
+
+}
+
+#contrastColor {
+    color: index.$text-secondary;
+}

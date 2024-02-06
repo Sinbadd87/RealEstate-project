@@ -2,7 +2,7 @@ Project structure:
 
 - Navigation and footer through all pages
 
-1. Main page
+1. Home page
    a. Banner
    b. Search bar
    c. Categories cards
@@ -25,3 +25,18 @@ Project structure:
 1. Google and email/password authentication
 2. Posibility to book a product
 3. Ask for callback?
+
+---
+
+Search Bar/Filter
+Data: {
+name: String,
+location: String,
+minimalPrice: Number,
+maximumPrice: Number,
+completionDate: Number,
+appartments: {
+rooms: Number,
+price: Number
+}
+}

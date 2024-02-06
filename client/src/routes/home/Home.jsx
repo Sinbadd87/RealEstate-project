@@ -1,6 +1,8 @@
+import "./home.scss";
+
 import PreviewSlider from "../../components/previewSlider/PreviewSlider";
 import previewSlides from "../../seeds/previewslides";
-import "./home.scss";
+import SearchBar from "../../components/searchBar/SearchBar";
 
 const Home = () => {
   return (
@@ -8,6 +10,7 @@ const Home = () => {
       <div className="previewSliderContainer">
         <PreviewSlider slides={previewSlides} />
       </div>
+      <SearchBar />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useState } from "react";
 import Select from "react-select";
 import MultiRangeSlider from "../dualSlider/DualSlider";
 import { MdOutlineClose } from "react-icons/md";
@@ -10,14 +10,49 @@ const SearchBar = () => {
   const location = categories.map((category) => ({
     value: category.location,
     label: category.location,
+    id: category.name,
   }));
-  //   const completionDate = categories.map((category) => ({
-  //     value: category.completionDate,
-  //     label: category.completionDate,
-  //   }));
-  //   console.log(location);
-  //   const [selected, setSelected] = useState(false);
-  //   const chooseHandler = () => setSelected(!selected);
+
+  const completionDateArr = categories
+    .map((category) => category.completionDate)
+    .sort();
+
+  const completionDate = [...new Set(completionDateArr)];
+
+  const minPricesArr = categories.map((category) => {
+    return category.minPrice;
+  });
+  const maxPriceArr = categories.map((category) => {
+    return category.maxPrice;
+  });
+  const min = Math.min(...minPricesArr);
+  const max = Math.max(...maxPriceArr);
+
+  //  Trying another way to set min/max. Leave for later
+  // const getMin = (a, b) => Math.min(a, b);
+  //   console.log(categories.map((catrgory) => catrgory.minPrice).reduce(getMin));
+
+  //   States
+  const [filteredItems, setFilteredItems] = useState(categories);
+  const [isClicked, setIsClicked] = useState(false);
+  const [compDate, setCompDate] = useState([]);
+
+  //   handlefunctions
+  const chooseHandler = (selectedOptions) => {
+    console.log(selectedOptions);
+  };
+
+  const pushButton = (pushedBtn) => {
+    const isExist = compDate.find((data) => data === pushedBtn);
+    if (!isExist) {
+      return setCompDate([...compDate, pushedBtn]);
+    } else {
+      return setCompDate(compDate.filter((date) => date !== pushedBtn));
+    }
+  };
+  console.log(compDate);
+
+  // Select multi styles
   const colorStyles = {
     control: (styles) => ({
       ...styles,
@@ -37,6 +72,7 @@ const SearchBar = () => {
       fontWeight: "500",
     }),
   };
+
   return (
     <div className="searchBarContainer">
       <h1>Our projects</h1>
@@ -49,13 +85,14 @@ const SearchBar = () => {
               options={location}
               styles={colorStyles}
               placeholder="Type address"
+              onChange={chooseHandler}
             />
           </label>
           <label>
             <h6 id="contrastColor">Choose price</h6>
             <MultiRangeSlider
-              min={0}
-              max={1000}
+              min={min}
+              max={max}
               onChange={({ min, max }) =>
                 console.log(`min = ${min}, max = ${max}`)
               }
@@ -64,17 +101,39 @@ const SearchBar = () => {
           <label>
             <h6>Completion date</h6>
             <div className="buttons">
-              <button className="btn">2024</button>
-              <button className="btn">2025</button>
-              <button className="btn">2026</button>
+              {completionDate.map((date, idx) => {
+                return (
+                  <button
+                    id={idx}
+                    key={idx}
+                    className={`btn ${
+                      compDate.find((el) => el === date.toString())
+                        ? "active"
+                        : ""
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      pushButton(e.target.value);
+                    }}
+                    value={date}
+                  >
+                    {date}
+                  </button>
+                );
+              })}
             </div>
           </label>
         </div>
         <div className="submitAndClearContainer">
           <a type="submit" className="resultSubmit">
-            Found 10 objects
+            Found {filteredItems.length} objects
           </a>
-          <div className="clearFilter">
+          <div
+            className="clearFilter"
+            onClick={() => {
+              console.log("cleared");
+            }}
+          >
             <MdOutlineClose />
             Clear
           </div>

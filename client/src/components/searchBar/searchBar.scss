@@ -20,6 +20,12 @@ h6 {
     padding: 0;
 }
 
+label {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .formContainer {
     display: flex;
     height: 56px;
@@ -48,7 +54,6 @@ h6 {
 }
 
 
-
 .buttons {
     height: 56px;
     width: 384px;
@@ -71,7 +76,12 @@ h6 {
         }
     }
 
+    .active {
+        background-color: index.$acent;
+        color: #f4f6fb !important;
+    }
 }
+
 
 #contrastColor {
     color: index.$text-secondary;

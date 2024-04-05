@@ -3,14 +3,15 @@
 .searchBarContainer {
     width: 100%;
     padding: 0 40px;
-    border: index.$bg-primary 1px solid;
-    border-radius: 25px;
+    border-top: index.$bg-secondary 1px solid;
+    border-radius: 25px 25px 0 0;
     box-shadow: 0 4px 8px rgba(40, 45, 60, .04), 0 0 2px rgba(40, 45, 60, .05), 0 0 1px rgba(40, 45, 60, .04);
     background-color: white;
 }
 
 form {
     height: 160px;
+    border-bottom: index.$bg-secondary 1.5px solid;
 }
 
 h6 {

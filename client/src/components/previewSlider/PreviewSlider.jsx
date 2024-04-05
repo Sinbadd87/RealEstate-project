@@ -10,7 +10,7 @@ import "./previewSlider.scss";
 const slideStyles = {
   width: "100%",
   height: "100%",
-  borderRadius: "10px",
+  borderRadius: "25px",
   backgroundSize: "cover",
   backgroundPosition: "center",
   display: "flex",

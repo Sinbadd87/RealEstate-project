@@ -1,0 +1,97 @@
+@use "../../index";
+
+.cardContainer {
+    height: 540px;
+    width: calc(33.3% - 48px);
+    margin-bottom: 48px;
+    margin-right: 48px;
+    margin-top: 48px;
+    cursor: pointer;
+
+    .cardPreviewSlider {
+        height: 90%;
+    }
+}
+
+.projectTitleRow {
+    display: flex;
+    justify-content: space-between;
+
+    h4 {
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 32px;
+        margin: auto 0;
+    }
+
+    h5 {
+        font-size: 16px;
+    }
+}
+
+.projectInfoRow {
+    display: flex;
+    justify-content: space-between;
+
+    h6 {
+        font-size: 14px;
+    }
+}
+
+.complitionDateInfo {
+    display: flex;
+    justify-content: center;
+    width: 60px;
+    padding: 5px;
+    position: relative;
+    top: -97%;
+    left: 82%;
+    font-size: 14px;
+    font-weight: 500;
+    color: index.$text-primary;
+    z-index: 1;
+    border: none;
+    border-radius: 25px;
+    background-color: index.$bg-primary;
+    opacity: 0.6;
+    backdrop-filter: blur(10px);
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.3);
+
+    a {
+        color: white;
+    }
+}
+
+.btnAboutProject {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: -13%;
+    width: 70%;
+    margin: auto;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    background-color: index.$bg-primary;
+    z-index: 1;
+
+    a {
+        font-size: 18px;
+        font-weight: 500;
+        color: index.$text-primary;
+    }
+
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.active {
+    visibility: visible;
+    transform: translate(0, -130%);
+    transition: transform 0.6s ease;
+}

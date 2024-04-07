@@ -20,7 +20,7 @@ const ProjectCard = ({ category }) => {
       onMouseLeave={toggleHover}
     >
       <div className="cardPreviewSlider">
-        <PreviewSlider slides={slide} />
+        <PreviewSlider slides={slide} className="previewTest" />
         <div className="complitionDateInfo">{completionDate}</div>
         <button className={hovered ? "active btnAboutProject" : "hidden"}>
           <a>Learn More</a>

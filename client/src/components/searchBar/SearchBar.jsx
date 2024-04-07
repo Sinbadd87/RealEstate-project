@@ -71,6 +71,10 @@ const SearchBar = () => {
       color: "#282d3c",
       fontWeight: "500",
     }),
+    menu: (styles) => ({
+      ...styles,
+      zIndex: "2",
+    }),
   };
 
   return (

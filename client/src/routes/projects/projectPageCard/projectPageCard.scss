@@ -1,0 +1,75 @@
+@use '../../../index.scss';
+
+.pageCardContainer {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(40, 45, 60, .04), 0 0 2px rgba(40, 45, 60, .05), 0 0 1px rgba(40, 45, 60, .04);
+}
+
+.previewProjectPage {
+    height: 500px;
+    z-index: -1;
+    transform: translate(0, -5%)
+}
+
+.cardInfo {
+    transform: translate(0, -50px);
+    display: flex;
+    align-items: center;
+    border: none;
+    // border-radius: 25px 25px 0 0;
+    background-color: index.$bg-secondary;
+    padding: 0 40px;
+
+    justify-content: space-between;
+
+    h2 {
+        width: 50%;
+    }
+
+    h4 {
+        display: flex;
+        width: 25%;
+        // margin-right: 40px;
+        justify-content: flex-end;
+        padding-right: 0;
+    }
+}
+
+.aboutProject {
+    display: flex;
+    padding: 0 40px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    margin-top: -2%;
+
+    .aboutText {
+        width: 50%;
+    }
+}
+
+.aboutImg {
+    display: flex;
+    object-fit: cover;
+    justify-content: end;
+
+    img {
+        max-height: 400px;
+        border-radius: 25px;
+        max-width: 90%;
+    }
+
+}
+
+.btnProjectPage {
+    background-color: #007bfb;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    padding: 13px 24px;
+    font-weight: 500;
+    transition: all .3s ease;
+
+    &:hover {
+        border-radius: 5px;
+    }
+}

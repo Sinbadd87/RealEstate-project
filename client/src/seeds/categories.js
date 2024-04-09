@@ -1,5 +1,6 @@
 const categories = [
   {
+    id: "project1",
     name: "Project 1",
     location: "Savvinskaya Naberezhnaya 17",
     geometry: [37.56567793970108, 55.73461611998274],
@@ -31,6 +32,7 @@ const categories = [
     },
   },
   {
+    id: "project2",
     name: "Project 2",
     location: "Kutuzovsky prospekt 12",
     geometry: [37.55842126829155, 55.748699126749315],
@@ -70,6 +72,7 @@ const categories = [
     },
   },
   {
+    id: "project3",
     name: "Project 3",
     location: "Ozyornaya Ulitsa 42",
     geometry: [37.44541819712152, 55.6717346291412],
@@ -115,6 +118,7 @@ const categories = [
     },
   },
   {
+    id: "project4",
     name: "Project 4",
     location: "Malyy Kozikhinskiy Pereulok 9",
     geometry: [37.59620551062187, 55.76463283679581],
@@ -160,6 +164,7 @@ const categories = [
     },
   },
   {
+    id: "project5",
     name: "Project 5",
     location: "Derbenevskaya Ulitsa 15",
     geometry: [37.64843628363125, 55.72102561406191],
@@ -199,6 +204,7 @@ const categories = [
     },
   },
   {
+    id: "project6",
     name: "Project 6",
     location: "Ulitsa Arkhitektora Shchuseva 2",
     geometry: [37.635802825959, 55.700439515903355],
@@ -244,6 +250,7 @@ const categories = [
     },
   },
   {
+    id: "project7",
     name: "Project 7",
     location: "Ulitsa Vereyskaya 29",
     geometry: [37.42976568363038, 55.70982457347501],
@@ -280,6 +287,7 @@ const categories = [
     },
   },
   {
+    id: "project8",
     name: "Project 8",
     location: "Botanicheskaya Ulitsa 29",
     geometry: [37.59331348363897, 55.83349133021147],
@@ -325,6 +333,7 @@ const categories = [
     },
   },
   {
+    id: "project9",
     name: "Project 9",
     location: "Minskaya Ulitsa 2",
     geometry: [37.50346855479544, 55.716446111586976],

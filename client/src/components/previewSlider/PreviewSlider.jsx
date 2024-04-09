@@ -18,7 +18,7 @@ const slideStyles = {
   alignItems: "flex-end",
 };
 
-const PreviewSlider = ({ slides }) => {
+const PreviewSlider = ({ slides, testStyle = slideStyles }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -36,7 +36,7 @@ const PreviewSlider = ({ slides }) => {
     setCurrentIndex(slideIndex);
   };
   const slideStylesWidthBackground = {
-    ...slideStyles,
+    ...testStyle,
     backgroundImage: `url(${slides[currentIndex].url})`,
   };
 

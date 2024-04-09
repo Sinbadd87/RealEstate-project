@@ -5,6 +5,8 @@ import Footer from "./routes/footer/Footer";
 import Home from "./routes/home/Home";
 import "./App.scss";
 import Contacts from "./routes/contacts/Contacts";
+import ProjectsPage from "./routes/projects/ProjectsPage";
+import ProjectPageCard from "./routes/projects/projectPageCard/ProjectPageCard";
 
 function App() {
   return (
@@ -19,6 +21,10 @@ function App() {
         }
       >
         <Route index element={<Home />} />
+        <Route path="/projects">
+          <Route index element={<ProjectsPage />} />
+          <Route path=":id" element={<ProjectPageCard />} />
+        </Route>
         <Route path="/contacts" element={<Contacts />} />
       </Route>
     </Routes>

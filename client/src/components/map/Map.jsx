@@ -5,13 +5,13 @@ import house from "/house.svg";
 
 import "./map.scss";
 
-const Map = ({ projects, initLng, initLat }) => {
+const Map = ({ projects, initLng, initLat, initZoom = 7 }) => {
   mapboxgl.accessToken = import.meta.env.VITE_API_MAP;
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(initLng);
   const [lat, setLat] = useState(initLat);
-  const [zoom, setZoom] = useState(7);
+  const [zoom, setZoom] = useState(initZoom);
   //   const lng = 34.883333;
   //   const lat = 32.15;
 
@@ -139,7 +139,7 @@ const Map = ({ projects, initLng, initLat }) => {
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
-          .setHTML(`${name}`)
+          .setHTML(`<a href="/contacts">${name}</a>`)
           .addTo(map.current);
       });
     });

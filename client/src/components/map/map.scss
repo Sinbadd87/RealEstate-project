@@ -1,0 +1,27 @@
+@use "../../index";
+
+.btnMap {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background-color: index.$acent;
+}
+
+.map-container {
+    width: 100%;
+    height: 500px;
+}
+
+.mapboxgl-popup {
+    border-radius: 25%;
+    border: none;
+}
+
+.mapboxgl-popup-content {
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    padding: 5px 24px;
+    font-weight: 500;
+}

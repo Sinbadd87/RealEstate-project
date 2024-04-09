@@ -1,0 +1,39 @@
+@use "../../index";
+
+.contactInfo {
+    padding: 0 40px;
+    margin-bottom: 20px;
+}
+
+.btnMap {
+    width: 157px;
+    height: 48px;
+    background-color: index.$bg-icon;
+    border: none;
+    border-radius: 25px;
+    color: index.$bg-primary;
+    font-size: 16px;
+    padding: 13px 24px;
+    font-weight: 600;
+    transition: all .3s ease;
+    margin-right: 20px;
+
+
+
+    &:hover {
+        border-radius: 8px;
+        opacity: 0.6;
+        background-color: index.$acent;
+    }
+}
+
+.activeMapBtn {
+    opacity: 1;
+    background-color: index.$acent;
+}
+
+.mapContainer {
+    border: none;
+    border-radius: 25px;
+    overflow: hidden;
+}

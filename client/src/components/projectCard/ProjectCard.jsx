@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import PreviewSlider from "../previewSlider/PreviewSlider";
 // import categories from "../../seeds/categories";
 import "./projectCard.scss";
@@ -11,6 +12,7 @@ const ProjectCard = ({ category }) => {
   const price = category.minPrice;
   const location = category.location;
   const completionDate = category.completionDate;
+  const id = category.id;
   const [hovered, setHovered] = useState(false);
   const toggleHover = () => setHovered(!hovered);
   return (
@@ -20,20 +22,27 @@ const ProjectCard = ({ category }) => {
       onMouseLeave={toggleHover}
     >
       <div className="cardPreviewSlider">
-        <PreviewSlider slides={slide} className="previewTest" />
+        <Link to={`/projects/${id}`}>
+          <PreviewSlider slides={slide} className="previewTest" />
+        </Link>
+        {/* <PreviewSlider slides={slide} className="previewTest" /> */}
         <div className="complitionDateInfo">{completionDate}</div>
         <button className={hovered ? "active btnAboutProject" : "hidden"}>
-          <a>Learn More</a>
+          <Link to={`/projects/${id}`} target="_blank">
+            Learn More
+          </Link>
         </button>
       </div>
       <div className="projectTitleContainer">
-        <div className="projectTitleRow">
-          <h4>{name}</h4>
-          <h5>from {price} $</h5>
-        </div>
-        <div className="projectInfoRow">
-          <h6>{location}</h6>
-        </div>
+        <Link to={`/projects/${id}`}>
+          <div className="projectTitleRow">
+            <h4>{name}</h4>
+            <h5>from {price} $</h5>
+          </div>
+          <div className="projectInfoRow">
+            <h6>{location}</h6>
+          </div>
+        </Link>
       </div>
     </div>
   );

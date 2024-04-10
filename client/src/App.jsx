@@ -7,6 +7,7 @@ import "./App.scss";
 import Contacts from "./routes/contacts/Contacts";
 import ProjectsPage from "./routes/projects/ProjectsPage";
 import ProjectPageCard from "./routes/projects/projectPageCard/ProjectPageCard";
+import Auth from "./routes/authentication/Auth";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path=":id" element={<ProjectPageCard />} />
         </Route>
         <Route path="/contacts" element={<Contacts />} />
+        <Route path="/auth" element={<Auth />} />
       </Route>
     </Routes>
   );

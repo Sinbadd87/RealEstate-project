@@ -20,7 +20,8 @@ const Map = ({ projects, initLng, initLat, initZoom = 7 }) => {
       ...project,
       type: "Feature",
       properties: {
-        projectId: project.name,
+        projectId: project.id,
+        projectName: project.name,
         projectDescription: project.location,
       },
       geometry: {
@@ -130,7 +131,8 @@ const Map = ({ projects, initLng, initLat, initZoom = 7 }) => {
 
       map.current.on("click", "unclustered-point", (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
-        const name = e.features[0].properties.projectId;
+        const name = e.features[0].properties.projectName;
+        const id = e.features[0].properties.projectId;
         console.log(e.features[0]);
 
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -139,7 +141,7 @@ const Map = ({ projects, initLng, initLat, initZoom = 7 }) => {
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
-          .setHTML(`<a href="/contacts">${name}</a>`)
+          .setHTML(`<a href="/projects/${id}">${name}</a>`)
           .addTo(map.current);
       });
     });

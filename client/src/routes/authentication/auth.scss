@@ -1,0 +1,10 @@
+.authenticationContainer {
+    display: flex;
+    // width: 900px;
+    justify-content: space-around;
+    padding: 45px 40px 40px 40px;
+    height: 500px;
+    background-color: white;
+    z-index: -1;
+    transform: translate(0, -5%)
+}

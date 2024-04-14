@@ -86,7 +86,7 @@ const SignInForm = () => {
             className="btnProjectPage"
             style={{ color: "white", fontWeight: "500" }}
           >
-            Google sign in
+            Sign in with Google
           </button>
         </div>
       </form>

@@ -1,8 +1,15 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useLoginMutation } from "../../api/authApiSlice";
+import {
+  setCredentials,
+  selectCurrentUser,
+} from "../../features/auth/authSlice";
 
 import FormInput from "../formInput/FormInput";
 
 import "./signinForm.scss";
+import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
   email: "",
@@ -12,39 +19,31 @@ const defaultFormFields = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+  const dispatch = useDispatch();
+  const [login, { isSuccess, isLoading }] = useLoginMutation();
+  const navigate = useNavigate();
 
-  //   const resetFormFields = () => {
-  //     setFormFields(defaultFormFields);
-  //   };
-
-  //   const signInWithGoogle = async () => {
-  //     const { user } = await signInWithGooglePopup();
-  //     await createUserDocumentFromAuth(user);
-  //   };
+  const resetFormFields = () => {
+    setFormFields(defaultFormFields);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("handleSubmit");
 
-    // try {
-    //   const response = await signInAuthUserWithEmailAndPassword(
-    //     email,
-    //     password
-    //   );
-    //   console.log(response);
-    //   resetFormFields();
-    // } catch (error) {
-    //   switch (error.code) {
-    //     case 'auth/wrong-password':
-    //       alert('incorrect password for email');
-    //       break;
-    //     case 'auth/user-not-found':
-    //       alert('no user associated with this email');
-    //       break;
-    //     default:
-    //       console.log(error);
-    //   }
-    // }
+    try {
+      const credentials = await login({
+        email,
+        password,
+      }).unwrap();
+      console.log(credentials, isLoading, isSuccess);
+      dispatch(setCredentials(credentials));
+      resetFormFields();
+      navigate("/");
+    } catch (error) {
+      alert("Please try again!");
+      resetFormFields();
+    }
   };
 
   const handleChange = (event) => {
@@ -52,6 +51,8 @@ const SignInForm = () => {
 
     setFormFields({ ...formFields, [name]: value });
   };
+  const userName = useSelector(selectCurrentUser);
+  console.log(userName);
 
   return (
     <div className="sign-up-container">
@@ -85,6 +86,14 @@ const SignInForm = () => {
           <button
             className="btnProjectPage"
             style={{ color: "white", fontWeight: "500" }}
+            onClick={(event) => {
+              event.preventDefault();
+              window.open(
+                "http://localhost:8000/auth/google/callback",
+                "_self",
+                "toolbar=no, menubar=no, width=600, height=700, top=100, left=100"
+              );
+            }}
           >
             Sign in with Google
           </button>

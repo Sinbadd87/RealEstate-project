@@ -1,6 +1,6 @@
 import ProjectCard from "../projectCard/ProjectCard";
 import "./projectcategories.scss";
-import { useGetProjectsQuery } from "../../api/project.api";
+import { useGetProjectsQuery } from "../../api/projectApiSlice.js";
 
 const ProjectCategories = () => {
   const { data } = useGetProjectsQuery();

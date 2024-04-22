@@ -17,14 +17,14 @@ const verifyCallback = async (accessToken, refreshToken, profile, done) => {
   const currentUser = await User.findOne({ email: profile.emails[0].value });
   if (currentUser) {
     console.log("User exist");
+    await done(null, currentUser);
   } else {
-    new User({
+    const newUser = await new User({
       username: profile.displayName,
       email: profile.emails[0].value,
     }).save();
+    await done(null, newUser);
   }
-
-  done(null, profile);
 };
 
 passport.use(
@@ -74,9 +74,11 @@ lestateDB.once("open", () => {
 // store.on("error", (e) => {
 //   console.log("Store error!", e);
 // });
+
 const sessionConfig = {
-  secret: process.env.SECRET,
-  resave: false,
+  name: "didit",
+  secret: [process.env.SECRET],
+  resave: true,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
@@ -92,7 +94,13 @@ async function loadAllProjects() {
 const app = express();
 
 app.use(session(sessionConfig));
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -101,8 +109,8 @@ passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 passport.deserializeUser(function (id, done) {
-  User.findById(function (err, user) {
-    done(err, user);
+  User.findById(id).then((user) => {
+    done(null, user);
   });
 });
 
@@ -118,6 +126,7 @@ app.get(
     failureRedirect: "http://localhost:5173/auth",
   }),
   (req, res) => {
+    console.log(req.user, "it's me");
     res.redirect("http://localhost:5173/");
   }
 );
@@ -142,6 +151,20 @@ app.get("/auth/signup", (req, res) => {
   res.redirect("http://localhost:5173/");
 });
 
+app.get("/auth/login", (req, res) => {
+  // Access user data from the session
+
+  const isAuth = req.isAuthenticated();
+
+  const username = req.user?.username;
+  console.log(username, "From the sessin", req.sessionID, isAuth);
+  if (username) {
+    res.json({ message: "Welcome to your profile!", username, isAuth });
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
+  }
+});
+
 app.post(
   "/auth/login",
   passport.authenticate("local", {
@@ -149,12 +172,24 @@ app.post(
     failureMessage: true,
   }),
   async (req, res) => {
-    const { email } = req.body;
+    const { email } = req.user;
     const logUser = await User.findOne({ email: email });
-    res.status(200).json(logUser);
+    if (logUser) {
+      console.log("login", req.user);
+      res.status(200).json(req.user);
+    }
   }
   //   TODO: Make error messages with different statuses
 );
+
+app.get("/auth/logout", (req, res, next) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("http://localhost:5173/");
+  });
+});
 
 app.listen(8000, async () => {
   await loadAllProjects();

@@ -1,11 +1,13 @@
 import { Outlet, Link } from "react-router-dom";
 import { FiUser } from "react-icons/fi";
+import useIsAuth from "../../features/auth/isAuth";
 // import { BsBuildings } from "react-icons/bs";
 // <BsBuildings />
 
 import "./navigation.scss";
 
 const Navigation = () => {
+  const isAuth = useIsAuth();
   return (
     <>
       <div className="navigationContainer">
@@ -25,10 +27,20 @@ const Navigation = () => {
         </div>
         <div className="navigationLinksSignIn">
           <h4 className="navigationLinkItem">050 000-00-00</h4>
-          <Link to="/auth" className="navigationLinkItem">
-            <button className="btnSingIn">Sign in</button>
-            <FiUser className="iSignIn" />
-          </Link>
+          {isAuth ? (
+            <Link
+              to="http://localhost:8000/auth/logout"
+              className="navigationLinkItem"
+            >
+              <button className="btnSingIn">Logout</button>
+              <FiUser className="iSignIn" />
+            </Link>
+          ) : (
+            <Link to="/auth" className="navigationLinkItem">
+              <button className="btnSingIn">Sign in</button>
+              <FiUser className="iSignIn" />
+            </Link>
+          )}
         </div>
       </div>
       <Outlet />

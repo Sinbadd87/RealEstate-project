@@ -1,8 +1,8 @@
 import { useGetAuthUserQuery } from "../../api/projectApiSlice";
 
-const useIsAuth = () => {
+const useIsAuth = async () => {
   const { data } = useGetAuthUserQuery();
-  return data?.isAuth;
+  return await data?.isAuth;
 };
 
 export default useIsAuth;

@@ -9,7 +9,6 @@ import {
 import FormInput from "../formInput/FormInput";
 
 import "./signinForm.scss";
-import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
   email: "",
@@ -21,7 +20,6 @@ const SignInForm = () => {
   const { email, password } = formFields;
   const dispatch = useDispatch();
   const [login, { isSuccess, isLoading }] = useLoginMutation();
-  const navigate = useNavigate();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -37,9 +35,8 @@ const SignInForm = () => {
         password,
       }).unwrap();
       console.log(credentials, isLoading, isSuccess);
-      dispatch(setCredentials(credentials));
+      dispatch(setCredentials({ ...credentials, formFields }));
       resetFormFields();
-      navigate("/");
     } catch (error) {
       alert("Please try again!");
       resetFormFields();
@@ -52,7 +49,7 @@ const SignInForm = () => {
     setFormFields({ ...formFields, [name]: value });
   };
   const userName = useSelector(selectCurrentUser);
-  console.log(userName);
+  console.log(userName, "username");
 
   return (
     <div className="sign-up-container">
@@ -89,7 +86,7 @@ const SignInForm = () => {
             onClick={(event) => {
               event.preventDefault();
               window.open(
-                "http://localhost:8000/auth/google/callback",
+                "/api/auth/google/callback",
                 "_self",
                 "toolbar=no, menubar=no, width=600, height=700, top=100, left=100"
               );

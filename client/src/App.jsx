@@ -26,8 +26,9 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/projects">
           <Route index element={<ProjectsPage />} />
-          <Route path=":id" element={<ProjectPageCard />}>
-            <Route path="/appartment" element={<AppartmentsPage />} />
+          <Route path=":id">
+            <Route index element={<ProjectPageCard />} />
+            <Route path="appartment" element={<AppartmentsPage />} />
           </Route>
         </Route>
         <Route path="/contacts" element={<Contacts />} />

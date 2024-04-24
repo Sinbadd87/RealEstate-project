@@ -1,12 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import passport from "passport";
 import session from "express-session";
 import GoogleStrategy from "passport-google-oauth20";
 import LocalStrategy from "passport-local";
-// import MongoStore from "connect-mongo";
+import MongoStore from "connect-mongo";
 
 import Project from "./schemas/projectSchema.js";
 import User from "./schemas/userSchema.js";
@@ -64,22 +65,22 @@ lestateDB.once("open", () => {
   console.log("Database connected");
 });
 
-// const store = MongoStore.create({
-//   mongoUrl: process.env.MONGO_API_KEY,
-//   touchAfter: 24 * 60 * 60,
-//   crypto: {
-//     secret: process.env.CRYPTO_SECRET,
-//   },
-// });
-// store.on("error", (e) => {
-//   console.log("Store error!", e);
-// });
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_API_KEY,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: process.env.CRYPTO_SECRET,
+  },
+});
+store.on("error", (e) => {
+  console.log("Store error!", e);
+});
 
 const sessionConfig = {
   name: "didit",
   secret: [process.env.SECRET],
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   cookie: {
     httpOnly: true,
     expires: Date.now() + 604800000,
@@ -92,16 +93,12 @@ async function loadAllProjects() {
 }
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(session(sessionConfig));
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-    credentials: true,
-  })
-);
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -114,24 +111,24 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-app.get("/projects", async (req, res) => {
+app.get("/api/projects", async (req, res) => {
   return res.status(200).json(await loadAllProjects());
 });
 
 // app.get("/auth/google", passport.authenticate("google"));
 
 app.get(
-  "/auth/google/callback",
+  "/api/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:5173/auth",
+    failureRedirect: "http://localhost:8000/auth",
   }),
   (req, res) => {
     console.log(req.user, "it's me");
-    res.redirect("http://localhost:5173/");
+    res.redirect("http://localhost:8000/");
   }
 );
 
-app.post("/auth/signup", async (req, res) => {
+app.post("/api/auth/signup", async (req, res) => {
   const { displayName, email, password } = req.body;
   console.log(email, displayName);
   const currentUser = await User.findOne({ email: email });
@@ -147,16 +144,16 @@ app.post("/auth/signup", async (req, res) => {
   }
 });
 
-app.get("/auth/signup", (req, res) => {
-  res.redirect("http://localhost:5173/");
+app.get("/api/auth/signup", (req, res) => {
+  res.redirect("http://localhost:8000/");
 });
 
-app.get("/auth/login", (req, res) => {
+app.get("/api/auth/login", async (req, res) => {
   // Access user data from the session
 
-  const isAuth = req.isAuthenticated();
+  const isAuth = await req.isAuthenticated();
 
-  const username = req.user?.username;
+  const username = await req.user?.username;
   console.log(username, "From the sessin", req.sessionID, isAuth);
   if (username) {
     res.json({ message: "Welcome to your profile!", username, isAuth });
@@ -166,9 +163,9 @@ app.get("/auth/login", (req, res) => {
 });
 
 app.post(
-  "/auth/login",
+  "/api/auth/login",
   passport.authenticate("local", {
-    failureRedirect: "http://localhost:5173/auth",
+    failureRedirect: "http://localhost:8000/auth",
     failureMessage: true,
   }),
   async (req, res) => {
@@ -182,12 +179,12 @@ app.post(
   //   TODO: Make error messages with different statuses
 );
 
-app.get("/auth/logout", (req, res, next) => {
+app.get("/api/auth/logout", (req, res, next) => {
   req.logout(function (err) {
     if (err) {
       return next(err);
     }
-    res.redirect("http://localhost:5173/");
+    res.redirect("http://localhost:8000/");
   });
 });
 

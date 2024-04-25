@@ -6,7 +6,7 @@ const categories = [
     geometry: [37.56567793970108, 55.73461611998274],
     minPrice: 1000,
     maxPrice: 10000,
-    completionDate: 2024,
+    completionDate: "2024",
     appartments: [
       { rooms: 1, price: 1000 },
       { rooms: 2, price: 2000 },
@@ -38,7 +38,7 @@ const categories = [
     geometry: [37.55842126829155, 55.748699126749315],
     minPrice: 2000,
     maxPrice: 20000,
-    completionDate: 2025,
+    completionDate: "2025",
     appartments: [
       { rooms: 1, price: 2000 },
       { rooms: 1, price: 2700 },
@@ -78,7 +78,7 @@ const categories = [
     geometry: [37.44541819712152, 55.6717346291412],
     minPrice: 500,
     maxPrice: 8700,
-    completionDate: 2024,
+    completionDate: "2024",
     appartments: [
       { rooms: 1, price: 500 },
       { rooms: 1, price: 1000 },
@@ -124,7 +124,7 @@ const categories = [
     geometry: [37.59620551062187, 55.76463283679581],
     minPrice: 2000,
     maxPrice: 15400,
-    completionDate: 2023,
+    completionDate: "2023",
     appartments: [
       { rooms: 1, price: 2000 },
       { rooms: 1, price: 2700 },
@@ -170,7 +170,7 @@ const categories = [
     geometry: [37.64843628363125, 55.72102561406191],
     minPrice: 1300,
     maxPrice: 8000,
-    completionDate: 2026,
+    completionDate: "2026",
     appartments: [
       { rooms: 1, price: 1300 },
       { rooms: 1, price: 1700 },
@@ -210,7 +210,7 @@ const categories = [
     geometry: [37.635802825959, 55.700439515903355],
     minPrice: 1500,
     maxPrice: 13000,
-    completionDate: 2024,
+    completionDate: "2024",
     appartments: [
       { rooms: 1, price: 1500 },
       { rooms: 1, price: 2000 },
@@ -256,7 +256,7 @@ const categories = [
     geometry: [37.42976568363038, 55.70982457347501],
     minPrice: 900,
     maxPrice: 5000,
-    completionDate: 2025,
+    completionDate: "2025",
     appartments: [
       { rooms: 1, price: 900 },
       { rooms: 1, price: 1300 },
@@ -293,7 +293,7 @@ const categories = [
     geometry: [37.59331348363897, 55.83349133021147],
     minPrice: 1000,
     maxPrice: 11000,
-    completionDate: 2024,
+    completionDate: "2024",
     appartments: [
       { rooms: 1, price: 1000 },
       { rooms: 1, price: 1700 },
@@ -339,7 +339,7 @@ const categories = [
     geometry: [37.50346855479544, 55.716446111586976],
     minPrice: 2000,
     maxPrice: 20000,
-    completionDate: 2026,
+    completionDate: "2026",
     appartments: [
       { rooms: 1, price: 2000 },
       { rooms: 1, price: 2700 },

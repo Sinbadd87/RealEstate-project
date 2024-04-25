@@ -98,7 +98,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(session(sessionConfig));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "..", "client", "dist")));
+// app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -186,6 +186,72 @@ app.get("/api/auth/logout", (req, res, next) => {
     }
     res.redirect("http://localhost:8000/");
   });
+});
+
+app.post("/api/filter", async (req, res) => {
+  console.log(req.body);
+  const { compDate, minNum, maxNum, selectedLocation } = req.body;
+  res.json(
+    await Project.find({
+      $and: [
+        {
+          minPrice: { $lte: maxNum },
+          maxPrice: { $gte: minNum },
+          location: { $in: selectedLocation },
+          //   completionDate: { $in: compDate },
+        },
+      ],
+    }).exec()
+  );
+  //   let query;
+  //   switch (true) {
+  //     case compDate.length === 0 && selectedLocation.length === 0:
+  //       query = {
+  //         $and: [{ minPrice: { $lte: minNum }, maxPrice: { $gte: maxNum } }],
+  //       };
+  //       console.log();
+  //       return res.json(Project.find(query));
+  //       break;
+  //     case compDate.length > 0:
+  //       query = {
+  //         $and: [
+  //           {
+  //             minPrice: { $lte: minNum },
+  //             maxPrice: { $gte: maxNum },
+  //             completionDate: { $in: compDate },
+  //           },
+  //         ],
+  //       };
+  //       return res.json(Project.find(query));
+  //       break;
+  //     case selectedLocation.length > 0:
+  //       query = {
+  //         $and: [
+  //           {
+  //             minPrice: { $lte: minNum },
+  //             maxPrice: { $gte: maxNum },
+  //             location: { $in: selectedLocation },
+  //           },
+  //         ],
+  //       };
+  //       return res.json(Project.find(query));
+  //       break;
+  //     default:
+  //       query = {
+  //         $and: [
+  //           {
+  //             minPrice: { $lte: minNum },
+  //             maxPrice: { $gte: maxNum },
+  //             location: { $in: selectedLocation },
+  //             completionDate: { $in: compDate },
+  //           },
+  //         ],
+  //       };
+  //       return res.json(Project.find(query));
+
+  //       break;
+  //   }
+  //   res.status(201).json("query results");
 });
 
 app.listen(8000, async () => {

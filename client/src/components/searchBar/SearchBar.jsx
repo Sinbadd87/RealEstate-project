@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import MultiRangeSlider from "../dualSlider/DualSlider";
 import { MdOutlineClose } from "react-icons/md";
+import { useFilterProjectsMutation } from "../../api/projectApiSlice";
 
 import "./searchBar.scss";
 import categories from "../../seeds/categories";
 
 const SearchBar = () => {
+  const [filterProjects, { data }] = useFilterProjectsMutation();
   const location = categories.map((category) => ({
     value: category.location,
     label: category.location,
@@ -32,14 +34,32 @@ const SearchBar = () => {
   // const getMin = (a, b) => Math.min(a, b);
   //   console.log(categories.map((catrgory) => catrgory.minPrice).reduce(getMin));
 
+  //   const defaultFilter = {
+  //     dates: [],
+  //     minPrice: null,
+  //     maxPrice: null,
+  //     locations: {},
+  //   };
+
   //   States
+  //   const [filter, setFilter] = useState(defaultFilter);
   const [filteredItems, setFilteredItems] = useState(categories);
-  const [isClicked, setIsClicked] = useState(false);
+  const [minNum, setMinNum] = useState(min);
+  const [maxNum, setMaxNum] = useState(max);
+  //   const [isClicked, setIsClicked] = useState(false);
   const [compDate, setCompDate] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState([]);
+
+  //   const { dates, minPrice, maxPrice, locations } = filter;
 
   //   handlefunctions
   const chooseHandler = (selectedOptions) => {
     console.log(selectedOptions);
+    selectedOptions.map((option) => {
+      const location = option.value;
+      console.log(option.value);
+      setSelectedLocation([...selectedLocation, location]);
+    });
   };
 
   const pushButton = (pushedBtn) => {
@@ -50,8 +70,33 @@ const SearchBar = () => {
       return setCompDate(compDate.filter((date) => date !== pushedBtn));
     }
   };
-  console.log(compDate);
 
+  //   useEffect(() => {
+  //     const handleFilterChange = () => {
+  //       setFilter({
+  //         dates: compDate,
+  //         minPrice: minNum,
+  //         maxPrice: maxNum,
+  //         location: selectedLocation,
+  //       });
+  //     };
+  //     handleFilterChange();
+  //   }, [compDate, maxNum, minNum, selectedLocation]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const filter = await filterProjects({
+        compDate,
+        minNum,
+        maxNum,
+        selectedLocation,
+      }).unwrap();
+      console.log(filter);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // Select multi styles
   const colorStyles = {
     control: (styles) => ({
@@ -76,11 +121,12 @@ const SearchBar = () => {
       zIndex: "2",
     }),
   };
+  console.log(data);
 
   return (
     <div className="searchBarContainer">
       <h1>Our projects</h1>
-      <form>
+      <form onSubmit={handleSubmit} method="POST">
         <div className="formContainer">
           <label>
             <h6>Choose location</h6>
@@ -97,9 +143,11 @@ const SearchBar = () => {
             <MultiRangeSlider
               min={min}
               max={max}
-              onChange={({ min, max }) =>
-                console.log(`min = ${min}, max = ${max}`)
-              }
+              onChange={({ min, max }) => {
+                setMinNum(min);
+                setMaxNum(max);
+                console.log(`min = ${min}, max = ${max}`);
+              }}
             />
           </label>
           <label>
@@ -129,9 +177,11 @@ const SearchBar = () => {
           </label>
         </div>
         <div className="submitAndClearContainer">
-          <a type="submit" className="resultSubmit">
-            Found {filteredItems.length} objects
-          </a>
+          <button>
+            <a type="submit" className="resultSubmit">
+              Found {filteredItems.length} objects
+            </a>
+          </button>
           <div
             className="clearFilter"
             onClick={() => {

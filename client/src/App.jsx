@@ -9,7 +9,7 @@ import ProjectsPage from "./routes/projects/ProjectsPage";
 import ProjectPageCard from "./routes/projects/projectPageCard/ProjectPageCard";
 import Auth from "./routes/authentication/Auth";
 import Reservation from "./routes/reservation/Reservation";
-import AppartmentsPage from "./routes/appartmentsPage/AppartmentsPage";
+import ApartmentsPage from "./routes/apartmentsPage/ApartmentsPage";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
           <Route index element={<ProjectsPage />} />
           <Route path=":id">
             <Route index element={<ProjectPageCard />} />
-            <Route path="appartment" element={<AppartmentsPage />} />
+            <Route path="apartments" element={<ApartmentsPage />} />
           </Route>
         </Route>
         <Route path="/contacts" element={<Contacts />} />

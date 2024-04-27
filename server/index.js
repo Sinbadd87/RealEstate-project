@@ -114,9 +114,14 @@ passport.deserializeUser(function (id, done) {
 app.get("/api/projects", async (req, res) => {
   return res.status(200).json(await loadAllProjects());
 });
-
-// app.get("/auth/google", passport.authenticate("google"));
-
+app.get("/api/projects/:id", async (req, res) => {
+  const { id } = req.params;
+  res.status(201).json(await Project.find({ id }));
+});
+app.get("/api/projects/:id/apartments", async (req, res) => {
+  const { id } = req.params;
+  res.status(201).json(await Project.findOne({ id }).select("apartments"));
+});
 app.get(
   "/api/auth/google/callback",
   passport.authenticate("google", {
@@ -191,18 +196,6 @@ app.get("/api/auth/logout", (req, res, next) => {
 app.post("/api/filter", async (req, res) => {
   console.log(req.body);
   const { compDate, minNum, maxNum, selectedLocation } = req.body;
-  //   res.json(
-  //     await Project.find({
-  //       $and: [
-  //         {
-  //           minPrice: { $lte: maxNum },
-  //           maxPrice: { $gte: minNum },
-  //           location: { $in: selectedLocation },
-  //           completionDate: { $in: compDate },
-  //         },
-  //       ],
-  //     }).exec()
-  //   );
   let query;
   switch (true) {
     case compDate.length === 0 && selectedLocation.length === 0:

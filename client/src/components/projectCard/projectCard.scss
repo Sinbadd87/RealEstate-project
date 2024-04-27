@@ -70,16 +70,6 @@
     background-color: index.$bg-primary;
     z-index: 1;
 
-    .hidden {
-        visibility: hidden;
-    }
-
-    .active {
-        visibility: visible;
-        transform: translate(0, -130%);
-        transition: transform 0.6s ease;
-    }
-
     a {
         font-size: 18px;
         font-weight: 500;
@@ -93,6 +83,16 @@
             color: white;
         }
     }
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.active {
+    visibility: visible;
+    transform: translate(0, -130%);
+    transition: transform 0.6s ease;
 }
 
 

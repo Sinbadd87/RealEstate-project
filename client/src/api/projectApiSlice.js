@@ -8,6 +8,12 @@ export const projectsApiSlice = createApi({
   }),
   endpoints: (build) => ({
     getProjects: build.query({ query: () => ({ url: `/projects` }) }),
+    getProjectById: build.query({
+      query: (id) => ({ url: `/projects/${id}` }),
+    }),
+    getApartment: build.query({
+      query: (id) => ({ url: `/projects/${id}/apartments` }),
+    }),
     getAuthUser: build.query({ query: () => ({ url: `/auth/login` }) }),
     filterProjects: build.mutation({
       query: (formFields) => ({
@@ -21,6 +27,8 @@ export const projectsApiSlice = createApi({
 
 export const {
   useGetProjectsQuery,
+  useGetProjectByIdQuery,
+  useGetApartmentQuery,
   useGetAuthUserQuery,
   useFilterProjectsMutation,
 } = projectsApiSlice;

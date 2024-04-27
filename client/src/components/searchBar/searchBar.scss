@@ -70,6 +70,7 @@ label {
         font-size: 16px;
         padding: 13px 24px;
         font-weight: 600;
+        transform: scale(1);
         transition: all .3s ease;
 
         &:hover {
@@ -78,7 +79,7 @@ label {
         }
     }
 
-    .active {
+    .activeBtn {
         background-color: index.$acent;
         color: #f4f6fb !important;
     }

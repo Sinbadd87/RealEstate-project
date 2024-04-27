@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PreviewSlider from "../previewSlider/PreviewSlider";
-// import categories from "../../seeds/categories";
 import "./projectCard.scss";
 
 // const slide = categories[0].images.preview;

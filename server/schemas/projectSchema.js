@@ -9,7 +9,7 @@ const projectSchema = new Schema({
   geometry: [Number],
   minPrice: Number,
   maxPrice: Number,
-  completionDate: Number,
+  completionDate: String,
   appartments: [{ rooms: Number, price: Number }],
   images: {
     preview: [

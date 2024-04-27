@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Map from "../../components/map/Map";
-import categories from "../../seeds/categories.js";
+// import categories from "../../seeds/categories.js";
 
 import "./contacts.scss";
+import { useGetProjectsQuery } from "../../api/projectApiSlice.js";
 
 const headOffice = [
   {
@@ -15,6 +16,8 @@ const headOffice = [
 const Contacts = () => {
   const [isMoscow, setIsMoscow] = useState(false);
   const [isHeadOffice, setIsHeadOffice] = useState(true);
+  const { data, isSuccess } = useGetProjectsQuery();
+  const categories = data;
 
   return (
     <div className="contactContainer">
@@ -40,7 +43,7 @@ const Contacts = () => {
         </button>
       </div>
       <div className="mapContainer">
-        {isMoscow && (
+        {isMoscow && isSuccess && (
           <Map projects={categories} initLat={55.751244} initLng={37.618423} />
         )}
         {isHeadOffice && (

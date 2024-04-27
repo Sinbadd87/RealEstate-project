@@ -191,67 +191,65 @@ app.get("/api/auth/logout", (req, res, next) => {
 app.post("/api/filter", async (req, res) => {
   console.log(req.body);
   const { compDate, minNum, maxNum, selectedLocation } = req.body;
-  res.json(
-    await Project.find({
-      $and: [
-        {
-          minPrice: { $lte: maxNum },
-          maxPrice: { $gte: minNum },
-          location: { $in: selectedLocation },
-          //   completionDate: { $in: compDate },
-        },
-      ],
-    }).exec()
-  );
-  //   let query;
-  //   switch (true) {
-  //     case compDate.length === 0 && selectedLocation.length === 0:
-  //       query = {
-  //         $and: [{ minPrice: { $lte: minNum }, maxPrice: { $gte: maxNum } }],
-  //       };
-  //       console.log();
-  //       return res.json(Project.find(query));
-  //       break;
-  //     case compDate.length > 0:
-  //       query = {
-  //         $and: [
-  //           {
-  //             minPrice: { $lte: minNum },
-  //             maxPrice: { $gte: maxNum },
-  //             completionDate: { $in: compDate },
-  //           },
-  //         ],
-  //       };
-  //       return res.json(Project.find(query));
-  //       break;
-  //     case selectedLocation.length > 0:
-  //       query = {
-  //         $and: [
-  //           {
-  //             minPrice: { $lte: minNum },
-  //             maxPrice: { $gte: maxNum },
-  //             location: { $in: selectedLocation },
-  //           },
-  //         ],
-  //       };
-  //       return res.json(Project.find(query));
-  //       break;
-  //     default:
-  //       query = {
-  //         $and: [
-  //           {
-  //             minPrice: { $lte: minNum },
-  //             maxPrice: { $gte: maxNum },
-  //             location: { $in: selectedLocation },
-  //             completionDate: { $in: compDate },
-  //           },
-  //         ],
-  //       };
-  //       return res.json(Project.find(query));
-
-  //       break;
-  //   }
-  //   res.status(201).json("query results");
+  //   res.json(
+  //     await Project.find({
+  //       $and: [
+  //         {
+  //           minPrice: { $lte: maxNum },
+  //           maxPrice: { $gte: minNum },
+  //           location: { $in: selectedLocation },
+  //           completionDate: { $in: compDate },
+  //         },
+  //       ],
+  //     }).exec()
+  //   );
+  let query;
+  switch (true) {
+    case compDate.length === 0 && selectedLocation.length === 0:
+      query = {
+        $and: [{ minPrice: { $lte: maxNum }, maxPrice: { $gte: minNum } }],
+      };
+      console.log("w/o date and location");
+      break;
+    case compDate.length > 0 && selectedLocation.length === 0:
+      query = {
+        $and: [
+          {
+            minPrice: { $lte: maxNum },
+            maxPrice: { $gte: minNum },
+            completionDate: { $in: compDate },
+          },
+        ],
+      };
+      console.log("w/o location");
+      break;
+    case selectedLocation.length > 0 && compDate.length === 0:
+      query = {
+        $and: [
+          {
+            minPrice: { $lte: maxNum },
+            maxPrice: { $gte: minNum },
+            location: { $in: selectedLocation },
+          },
+        ],
+      };
+      console.log("w/o date");
+      break;
+    default:
+      query = {
+        $and: [
+          {
+            minPrice: { $lte: maxNum },
+            maxPrice: { $gte: minNum },
+            location: { $in: selectedLocation },
+            completionDate: { $in: compDate },
+          },
+        ],
+      };
+      console.log("default");
+      break;
+  }
+  res.status(201).json(await Project.find(query).exec());
 });
 
 app.listen(8000, async () => {

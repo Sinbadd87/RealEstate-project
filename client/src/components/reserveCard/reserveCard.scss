@@ -1,0 +1,66 @@
+@use "../../index";
+
+.reserveCardContainer {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 25px;
+    border: solid 1px index.$border-light;
+    overflow: hidden;
+    color: index.$text-secondary;
+}
+
+.reserveCardImage {
+    display: flex;
+    padding: 20px;
+
+    img {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+.reserveCardBody {
+    padding: 0 40px;
+
+    .reserveCardTitle {
+        font-size: 1.5rem;
+        padding: 10px 0;
+    }
+
+    .reserveCardInfo {
+        font-size: 1rem;
+        padding: 20px 0;
+    }
+
+    .reserveCardPrice {
+        font-size: 1rem;
+        font-weight: 500;
+        margin-top: 10px;
+    }
+
+    .btnReserveContact {
+        background-color: index.$acent;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: index.$bg-primary;
+        padding: 13px 24px;
+        font-weight: 500;
+        transition: all .3s ease;
+        margin: 20px 0;
+
+        &:hover {
+            border-radius: 25px;
+        }
+    }
+}
+
+.reserveCardDelete {
+    padding: 20px;
+    font-size: 30px;
+    margin: auto;
+
+    &:hover {
+        color: index.$acent;
+    }
+}

@@ -4,6 +4,7 @@ import passportLocalMongoose from "passport-local-mongoose";
 const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   username: { type: String },
+  reservedApartment: { type: Schema.Types.ObjectId, ref: "Apartment" },
 });
 UserSchema.plugin(passportLocalMongoose, {
   usernameField: "email",

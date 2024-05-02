@@ -4,7 +4,7 @@ import {
   useFilterProjectsMutation,
   useGetProjectsQuery,
 } from "../../api/projectApiSlice.js";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const ProjectCategories = () => {
   const getProjects = useGetProjectsQuery();

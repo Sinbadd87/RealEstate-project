@@ -35,7 +35,7 @@ const SignInForm = () => {
         password,
       }).unwrap();
       console.log(credentials, isLoading, isSuccess);
-      dispatch(setCredentials({ ...credentials, formFields }));
+      dispatch(setCredentials(credentials));
       resetFormFields();
     } catch (error) {
       alert("Please try again!");

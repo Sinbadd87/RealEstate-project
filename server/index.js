@@ -11,13 +11,14 @@ import MongoStore from "connect-mongo";
 
 import Project from "./schemas/projectSchema.js";
 import User from "./schemas/userSchema.js";
+import Reserve from "./schemas/reserve.js";
+import Apartment from "./schemas/apartmentSchema.js";
 
 dotenv.config({ path: "../.env" });
 
 const verifyCallback = async (accessToken, refreshToken, profile, done) => {
   const currentUser = await User.findOne({ email: profile.emails[0].value });
   if (currentUser) {
-    console.log("User exist");
     await done(null, currentUser);
   } else {
     const newUser = await new User({
@@ -77,7 +78,8 @@ store.on("error", (e) => {
 });
 
 const sessionConfig = {
-  name: "didit",
+  store,
+  name: "lestateSess",
   secret: [process.env.SECRET],
   resave: false,
   saveUninitialized: false,
@@ -92,6 +94,21 @@ async function loadAllProjects() {
   return await Project.find({});
 }
 
+// async function addAp() {
+//   //   const projects = await Project.find({}).select("_id");
+//   const newId = "661a5404212a78890c161f07";
+//   const apartms = await Apartment.find({
+//     project: newId,
+//   }).select("id");
+//   const apmap = apartms.map((obj) => {
+//     return obj._id;
+//   });
+//   await Project.findByIdAndUpdate(newId, {
+//     apartments: apmap,
+//   });
+//   console.log(apmap);
+// }
+// addAp();
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -120,7 +137,14 @@ app.get("/api/projects/:id", async (req, res) => {
 });
 app.get("/api/projects/:id/apartments", async (req, res) => {
   const { id } = req.params;
-  res.status(201).json(await Project.findOne({ id }).select("apartments"));
+  res.status(201).json(
+    await Project.findOne({ id }).populate({
+      path: "apartments",
+      options: {
+        sort: { rooms: 1 },
+      },
+    })
+  );
 });
 app.get(
   "/api/auth/google/callback",
@@ -128,7 +152,6 @@ app.get(
     failureRedirect: "http://localhost:8000/auth",
   }),
   (req, res) => {
-    console.log(req.user, "it's me");
     res.redirect("http://localhost:8000/");
   }
 );
@@ -156,7 +179,7 @@ app.get("/api/auth/signup", (req, res) => {
 app.get("/api/auth/login", async (req, res) => {
   // Access user data from the session
 
-  const isAuth = await req.isAuthenticated();
+  const isAuth = req.isAuthenticated();
 
   const username = await req.user?.username;
   console.log(username, "From the sessin", req.sessionID, isAuth);
@@ -177,7 +200,6 @@ app.post(
     const { email } = req.user;
     const logUser = await User.findOne({ email: email });
     if (logUser) {
-      console.log("login", req.user);
       res.status(200).json(req.user);
     }
   }
@@ -189,7 +211,8 @@ app.get("/api/auth/logout", (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.redirect("http://localhost:8000/");
+    res.status(200).json({ user: "Logout" });
+    // res.redirect("http://localhost:5173");
   });
 });
 
@@ -245,6 +268,37 @@ app.post("/api/filter", async (req, res) => {
   res.status(201).json(await Project.find(query).exec());
 });
 
+app.post("/api/reserve", async (req, res) => {
+  const userData = req.user.id;
+  const { _id } = req.body;
+  const reserveData = {
+    user: userData,
+    apartment: _id,
+  };
+  await Apartment.findByIdAndUpdate(_id, { reserved: true });
+  const reserve = await new Reserve(reserveData).save();
+  res.status(201).json(reserve);
+});
+
+app.get("/api/reserve", async (req, res) => {
+  const userData = req.user.id;
+  const reservedAp = await Reserve.find({ user: userData }).populate({
+    path: "apartment",
+    populate: { path: "project" },
+  });
+  res.json(reservedAp);
+});
+app.delete("/api/reserve/:id", async (req, res) => {
+  const userData = req.user.id;
+  const { id } = req.params;
+  try {
+    await Reserve.findByIdAndDelete(id);
+    console.log(id);
+    res.status(200).json({ message: "Deleted" });
+  } catch (error) {
+    res.json(error);
+  }
+});
 app.listen(8000, async () => {
   await loadAllProjects();
   console.log("Server is running port 8000");

@@ -10,7 +10,7 @@ const projectSchema = new Schema({
   minPrice: Number,
   maxPrice: Number,
   completionDate: String,
-  appartments: [{ rooms: Number, price: Number }],
+  apartments: [{ type: Schema.Types.ObjectId, ref: "Apartment" }],
   images: {
     preview: [
       {

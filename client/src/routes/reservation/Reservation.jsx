@@ -1,20 +1,40 @@
-// import { selectCurrentUser } from "../../features/auth/authSlice";
-// import { useSelector } from "react-redux";
-// import { Navigate } from "react-router-dom";
+import {
+  useGetAuthUserQuery,
+  useGetReserveQuery,
+} from "../../api/projectApiSlice";
+import ReserveCard from "../../components/reserveCard/ReserveCard";
 
-import { useGetAuthUserQuery } from "../../api/projectApiSlice";
+import "./reservation.scss";
 
 const Reservation = () => {
-  //   const currentUser = useSelector(selectCurrentUser);
-  //   if (!currentUser) {
-  //     return <Navigate to="/auth" replace />;
-  //   }
+  const reserve = useGetReserveQuery();
+  const resApartment = reserve.data ? reserve.data[0].apartment : null;
+  const resId = reserve.data ? reserve.data[0]._id : null;
   const { data } = useGetAuthUserQuery();
   if (data) {
     const user = data.username;
     const isAuth = data.isAuth;
+    // const { project, image, price, reserved } = resApartment;
     console.log("reservation", user, isAuth, data);
-    return <div>`Reservation: {user}`</div>;
+    console.log("Reserve:", resId, resApartment);
+    return (
+      <div className="reserveContainer">
+        <div className="reserveGreeting">Hello {user}!</div>
+        {resApartment ? (
+          <>
+            <h5>Confirm reservation</h5>
+            <ReserveCard
+              image={resApartment.image}
+              name={resApartment.project.name}
+              price={resApartment.price}
+              id={resId}
+            />
+          </>
+        ) : (
+          <h5>You haven`&apos;`t reservation yet</h5>
+        )}
+      </div>
+    );
   } else {
     return <div>Loading...</div>;
   }

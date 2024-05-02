@@ -1,22 +1,35 @@
 import { projectsApiSlice } from "./projectApiSlice";
 
-export const authApiSlice = projectsApiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    login: builder.mutation({
-      query: (credentials) => ({
-        url: "/auth/login",
-        method: "POST",
-        body: { ...credentials },
+export const authApiSlice = projectsApiSlice
+  .enhanceEndpoints({ addTagTypes: ["User"] })
+  .injectEndpoints({
+    endpoints: (builder) => ({
+      login: builder.mutation({
+        query: (credentials) => ({
+          url: "/auth/login",
+          method: "POST",
+          body: { ...credentials },
+        }),
+        providesTags: ["User"],
+      }),
+      register: builder.mutation({
+        query: (formFields) => ({
+          url: "/auth/signup",
+          method: "POST",
+          body: { ...formFields },
+        }),
+        providesTags: ["User"],
+      }),
+      logout: builder.query({
+        query: () => ({ url: `/auth/logout` }),
+        invalidatesTags: ["User"],
       }),
     }),
-    register: builder.mutation({
-      query: (formFields) => ({
-        url: "/auth/signup",
-        method: "POST",
-        body: { ...formFields },
-      }),
-    }),
-  }),
-});
+  });
 
-export const { useLoginMutation, useRegisterMutation } = authApiSlice;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useLogoutQuery,
+  useLazyLogoutQuery,
+} = authApiSlice;

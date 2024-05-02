@@ -1,22 +1,24 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { FiUser } from "react-icons/fi";
-// import useIsAuth from "../../features/auth/isAuth";
-// import { BsBuildings } from "react-icons/bs";
-// <BsBuildings />
 
 import "./navigation.scss";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../features/auth/authSlice";
+// import { useSelector } from "react-redux";
+// import { selectCurrentUser } from "../../features/auth/authSlice";
+import { useLazyLogoutQuery } from "../../api/authApiSlice";
+// import { useGetAuthUserQuery } from "../../api/projectApiSlice";
 
 const Navigation = () => {
-  //   const isAuth = useIsAuth();
-  const currentUser = useSelector(selectCurrentUser);
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    navigate("/api/auth/logout");
-    console.log("Logout clicked");
+  const [trigger] = useLazyLogoutQuery();
+  //   const { data } = useGetAuthUserQuery();
+  //   const currentUser = useSelector(selectCurrentUser);
+  //   const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await trigger().unwrap();
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   return (
     <>
       <div className="navigationContainer">
@@ -36,7 +38,7 @@ const Navigation = () => {
         </div>
         <div className="navigationLinksSignIn">
           <h4 className="navigationLinkItem">050 000-00-00</h4>
-          {currentUser ? (
+          {data ? (
             <button className="btnSingIn" onClick={handleLogout}>
               Logout
             </button>

@@ -9,8 +9,12 @@ const ReserveCard = ({ image, price, name, id }) => {
     // TODO: Create modal popup instead alert
   };
   const handleDeleteReserve = async () => {
-    await deleteReserve(id);
-    console.log("deleted", isSuccess);
+    try {
+      await deleteReserve(id);
+      console.log("deleted", isSuccess);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="reserveCardContainer">

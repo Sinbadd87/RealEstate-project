@@ -11,7 +11,26 @@ import Auth from "./routes/authentication/Auth";
 import Reservation from "./routes/reservation/Reservation";
 import ApartmentsPage from "./routes/apartmentsPage/ApartmentsPage";
 
+import { useEffect } from "react";
+import { useGetAuthUserQuery } from "./api/projectApiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "./features/auth/authSlice";
+
 function App() {
+  const { data } = useGetAuthUserQuery();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const setUser = async () => {
+      if (await data?.isAuth) {
+        console.log(await data.username);
+        dispatch(setCredentials(await data));
+      } else {
+        dispatch(setCredentials(null));
+      }
+    };
+    setUser();
+  }, [data]);
+
   return (
     <Routes>
       <Route

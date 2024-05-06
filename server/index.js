@@ -13,6 +13,7 @@ import Project from "./schemas/projectSchema.js";
 import User from "./schemas/userSchema.js";
 import Reserve from "./schemas/reserve.js";
 import Apartment from "./schemas/apartmentSchema.js";
+import { error } from "console";
 
 dotenv.config({ path: "../.env" });
 
@@ -269,34 +270,66 @@ app.post("/api/filter", async (req, res) => {
 });
 
 app.post("/api/reserve", async (req, res) => {
-  const userData = req.user.id;
-  const { _id } = req.body;
-  const reserveData = {
-    user: userData,
-    apartment: _id,
-  };
-  await Apartment.findByIdAndUpdate(_id, { reserved: true });
-  const reserve = await new Reserve(reserveData).save();
-  res.status(201).json(reserve);
+  if (req.user) {
+    const userData = req.user.id;
+    const { _id } = req.body;
+    const reserveData = {
+      user: userData,
+      apartment: _id,
+    };
+    const isReserved = await Reserve.findOne({ apartment: _id });
+    if (!isReserved) {
+      await Apartment.findByIdAndUpdate(_id, { reserved: true });
+      const reserve = await new Reserve(reserveData).save();
+      res.status(201).json(reserve);
+    } else {
+      res.status(409).json({ error: "Already reserved" });
+    }
+  } else {
+    res.status(403).json({ error: "You should authenticate" });
+  }
 });
 
 app.get("/api/reserve", async (req, res) => {
-  const userData = req.user.id;
-  const reservedAp = await Reserve.find({ user: userData }).populate({
-    path: "apartment",
-    populate: { path: "project" },
-  });
-  res.json(reservedAp);
+  try {
+    if (req.user) {
+      const userData = req.user.id;
+      const reservedAp = await Reserve.find({ user: userData }).populate({
+        path: "apartment",
+        populate: { path: "project" },
+      });
+      if (reservedAp.length > 0) {
+        console.log("ding", reservedAp);
+        res.json(reservedAp);
+      } else {
+        res.status(400).json({ error: "Nothing reserved" });
+      }
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
+
 app.delete("/api/reserve/:id", async (req, res) => {
   const userData = req.user.id;
   const { id } = req.params;
-  try {
-    await Reserve.findByIdAndDelete(id);
-    console.log(id);
-    res.status(200).json({ message: "Deleted" });
-  } catch (error) {
-    res.json(error);
+  const apartmentId = await Reserve.findById(id, { apartment: 1, _id: 0 });
+  const ownerId = await Reserve.findById(id, { user: 1, _id: 0 });
+  if (ownerId.user == userData) {
+    try {
+      await Apartment.findByIdAndUpdate(apartmentId.apartment, {
+        reserved: false,
+      });
+      await Reserve.findByIdAndDelete(id);
+      console.log(id);
+      res.status(200).json({ message: "Deleted" });
+    } catch (error) {
+      res.json(error);
+    }
+  } else {
+    res
+      .status(403)
+      .json({ error: "You haven't permission to delete this reserve" });
   }
 });
 app.listen(8000, async () => {

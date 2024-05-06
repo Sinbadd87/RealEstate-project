@@ -15,6 +15,7 @@ const ApartmentCard = ({ apartment }) => {
       console.log(reserveApartment);
       navigate("/reservation");
     } catch (error) {
+      navigate("/auth");
       console.log(error);
     }
   };

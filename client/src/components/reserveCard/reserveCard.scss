@@ -48,6 +48,7 @@
         font-weight: 500;
         transition: all .3s ease;
         margin: 20px 0;
+        cursor: pointer;
 
         &:hover {
             border-radius: 25px;
@@ -59,6 +60,7 @@
     padding: 20px;
     font-size: 30px;
     margin: auto;
+    cursor: pointer;
 
     &:hover {
         color: index.$acent;

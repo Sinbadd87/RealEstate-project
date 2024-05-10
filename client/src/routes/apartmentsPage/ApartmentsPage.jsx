@@ -6,8 +6,8 @@ import "./apartmentPage.scss";
 
 const ApartmentsPage = () => {
   let { id } = useParams();
-  const { data, isSuccess, isLoading } = useGetApartmentQuery(id);
-  const apartments = data?.apartments;
+  const { currentData, isSuccess, isLoading } = useGetApartmentQuery(id);
+  const apartments = currentData?.apartments;
 
   return (
     <div className="apartmentPageContainer">

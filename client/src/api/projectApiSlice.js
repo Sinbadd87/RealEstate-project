@@ -6,7 +6,7 @@ export const projectsApiSlice = createApi({
     baseUrl: "/api",
     credentials: "include",
   }),
-  tagTypes: ["Reserves", "User"],
+  tagTypes: ["Reserves", "User", "Apartments"],
   endpoints: (build) => ({
     getProjects: build.query({ query: () => ({ url: `/projects` }) }),
     getProjectById: build.query({
@@ -14,6 +14,7 @@ export const projectsApiSlice = createApi({
     }),
     getApartment: build.query({
       query: (id) => ({ url: `/projects/${id}/apartments` }),
+      providesTags: ["Apartments", "Reserves"],
     }),
     getAuthUser: build.query({
       query: () => ({ url: `/auth/login` }),
@@ -21,7 +22,7 @@ export const projectsApiSlice = createApi({
     }),
     getReserve: build.query({
       query: () => ({ url: `/reserve` }),
-      providesTags: ["Reserves"],
+      providesTags: ["Reserves", "Apartments"],
     }),
     deleteReserve: build.mutation({
       query: (id) => ({ url: `/reserve/${id}`, method: "delete" }),
@@ -40,7 +41,7 @@ export const projectsApiSlice = createApi({
         method: "POST",
         body: reserveDetails,
       }),
-      providesTags: ["Reserves"],
+      invalidatesTags: ["Reserves", "Apartments"],
     }),
   }),
 });

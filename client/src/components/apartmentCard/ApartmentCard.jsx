@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./apartmentCard.scss";
 
 const ApartmentCard = ({ apartment }) => {
-  const { image, rooms, price, project, _id } = apartment;
+  const { image, rooms, price, project, _id, reserved } = apartment;
   const navigate = useNavigate();
   const [reserve] = useReserveMutation();
   const handleReserve = async (e) => {
@@ -19,17 +19,25 @@ const ApartmentCard = ({ apartment }) => {
       console.log(error);
     }
   };
+  const handleDisabledEvent = (e) => {
+    e.preventDefault();
+  };
   return (
-    <div className="apartmentCardContainer">
+    <div className="apartmentCardContainer" aria-disabled={reserved}>
       <div className="apartmentCardTitle">
         <h3>{rooms} rooms appartment</h3>
       </div>
       <div className="apartmentCardImage">
         <img src={image} />
+        {reserved && <div className="reserved">Reserved</div>}
       </div>
       <div className="apartmentCardInfo">Price: {price}$</div>
       <div className="apartmentCardBtn">
-        <button className="reserveBtn" onClick={handleReserve}>
+        <button
+          className={reserved ? "reserveBtn reservedBtn" : "reserveBtn"}
+          onClick={reserved ? handleDisabledEvent : handleReserve}
+          aria-disabled={reserved}
+        >
           Reserve
         </button>
       </div>

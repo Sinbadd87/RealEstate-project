@@ -42,9 +42,11 @@ const Navigation = () => {
         <div className="navigationLinksSignIn">
           <h4 className="navigationLinkItem">050 000-00-00</h4>
           {currentUser ? (
-            <button className="btnSingIn" onClick={handleLogout}>
-              Logout
-            </button>
+            <Link className="navigationLinkItem">
+              <button className="btnSingIn" onClick={handleLogout}>
+                Logout
+              </button>
+            </Link>
           ) : (
             <Link to="/auth" className="navigationLinkItem">
               <button className="btnSingIn">Sign in</button>

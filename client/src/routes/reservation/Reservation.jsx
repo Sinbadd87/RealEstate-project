@@ -23,7 +23,7 @@ const Reservation = () => {
         <div className="reserveGreeting">Hello {user}!</div>
         {isLoading && <div>Loading...</div>}
         {isSuccess &&
-          reserve.map((resApartment) => {
+          reserve.map((resApartment, i) => {
             console.log("success");
             const { image, project, price } = resApartment.apartment;
             const id = resApartment._id;
@@ -31,7 +31,7 @@ const Reservation = () => {
               <>
                 <h5>Confirm reservation</h5>
                 <ReserveCard
-                  key={id}
+                  key={i}
                   image={image}
                   name={project.name}
                   price={price}

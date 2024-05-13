@@ -1,14 +1,23 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import {
+  setMaxVal,
+  setMinVal,
+  selectMaxVal,
+  selectMinVal,
+} from "../../features/dualSliderSlice";
+import { useDispatch, useSelector } from "react-redux";
 import classnames from "classnames";
 // import PropTypes from "prop-types";
 import "./dualSlider.scss";
 
 const MultiRangeSlider = ({ min, max, onChange }) => {
-  const [minVal, setMinVal] = useState(min);
-  const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(null);
   const maxValRef = useRef(null);
   const range = useRef(null);
+
+  const dispatch = useDispatch();
+  const minVal = useSelector(selectMinVal);
+  const maxVal = useSelector(selectMaxVal);
 
   // Convert to percentage
   const getPercent = useCallback(
@@ -56,7 +65,7 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
         ref={minValRef}
         onChange={(event) => {
           const value = Math.min(+event.target.value, maxVal - 1);
-          setMinVal(value);
+          dispatch(setMinVal(value));
           event.target.value = value.toString();
         }}
         className={classnames("thumb thumb--zindex-3", {
@@ -71,7 +80,7 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
         ref={maxValRef}
         onChange={(event) => {
           const value = Math.max(+event.target.value, minVal + 1);
-          setMaxVal(value);
+          dispatch(setMaxVal(value));
           event.target.value = value.toString();
         }}
         className="thumb thumb--zindex-4"

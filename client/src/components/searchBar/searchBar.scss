@@ -50,9 +50,9 @@ label {
         }
     }
 
-    .resultSubmit {
-        color: index.$acent;
-    }
+    // .resultSubmit {
+    //     color: index.$acent;
+    // }
 }
 
 
@@ -82,6 +82,22 @@ label {
     .activeBtn {
         background-color: index.$acent;
         color: #f4f6fb !important;
+    }
+}
+
+.btnSubmit {
+    background-color: #f4f6fb;
+    border: none;
+    border-radius: 25px;
+    color: index.$acent;
+    font-size: 14px;
+    padding: 13px 24px;
+    font-weight: 500;
+    transition: all .3s ease;
+    cursor: pointer;
+
+    &:hover {
+        border-radius: 5px;
     }
 }
 

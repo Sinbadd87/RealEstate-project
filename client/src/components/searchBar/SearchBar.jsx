@@ -1,15 +1,19 @@
-import { useState } from "react";
-import Select from "react-select";
+import { useState, useEffect, useRef } from "react";
+import Select, { components } from "react-select";
 import MultiRangeSlider from "../dualSlider/DualSlider";
 import { MdOutlineClose } from "react-icons/md";
 import {
   useFilterProjectsMutation,
   useGetProjectsQuery,
 } from "../../api/projectApiSlice";
+import { setMaxVal, setMinVal } from "../../features/dualSliderSlice";
+import { setProjects } from "../../features/projectsSlice";
+import { useDispatch } from "react-redux";
 
 import "./searchBar.scss";
 
 const SearchBar = () => {
+  const dispatch = useDispatch();
   const getProjects = useGetProjectsQuery();
   const categories = getProjects.isSuccess ? getProjects.data : [];
 
@@ -33,18 +37,22 @@ const SearchBar = () => {
   });
   const min = Math.min(...minPricesArr);
   const max = Math.max(...maxPriceArr);
+  useEffect(() => {
+    dispatch(setMinVal(min));
+    dispatch(setMaxVal(max));
+  }, [min, max]);
 
   //  Trying another way to set min/max. Leave for later
   // const getMin = (a, b) => Math.min(a, b);
   //   console.log(categories.map((catrgory) => catrgory.minPrice).reduce(getMin));
 
   //   States
-  const [filteredItems, setFilteredItems] = useState(categories);
+  //   const [filteredItems, setFilteredItems] = useState(categories);
   const [minNum, setMinNum] = useState(min);
   const [maxNum, setMaxNum] = useState(max);
   const [compDate, setCompDate] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [filterProjects, { data }] = useFilterProjectsMutation({
+  const [filterProjects, { reset }] = useFilterProjectsMutation({
     fixedCacheKey: "sharedFilterProjects",
   });
 
@@ -63,6 +71,7 @@ const SearchBar = () => {
       const location = option.value;
       return location;
     });
+    console.log(selectedLocation);
     try {
       const filter = await filterProjects({
         compDate,
@@ -75,10 +84,20 @@ const SearchBar = () => {
       console.log(error);
     }
   };
+  const selectInputRef = useRef();
+  const clearValue = () => {
+    selectInputRef.current.clearValue();
+  };
   // TODO: Make Select and DualRange clear on button click!
   const handleClear = (e) => {
     e.preventDefault();
     setCompDate([]);
+    setSelectedOption(null);
+    dispatch(setMinVal(min));
+    dispatch(setMaxVal(max));
+    clearValue();
+    reset();
+    dispatch(setProjects(categories));
   };
   // Select multi styles
   const colorStyles = {
@@ -103,6 +122,16 @@ const SearchBar = () => {
       ...styles,
       zIndex: "2",
     }),
+    option: (styles) => ({ ...styles, borderRadius: "8px" }),
+    multiValue: (styles) => ({
+      ...styles,
+      borderRadius: "25px",
+      backgroundColor: "#007bfb33",
+      padding: "3px",
+      backdropFilter: "blur(30px)",
+      width: "150px",
+      overflow: "hidden",
+    }),
   };
 
   return (
@@ -113,11 +142,13 @@ const SearchBar = () => {
           <label>
             <h6>Choose location</h6>
             <Select
+              ref={selectInputRef}
               isMulti
               options={location}
               styles={colorStyles}
               placeholder="Type address"
               onChange={setSelectedOption}
+              components={{ ValueContainer }}
             />
           </label>
           <label>
@@ -162,10 +193,11 @@ const SearchBar = () => {
           </label>
         </div>
         <div className="submitAndClearContainer">
-          <button>
-            <a type="submit" className="resultSubmit">
-              Found {filteredItems.length} objects
-            </a>
+          <button className="btnSubmit">
+            {/* <a type="submit" className="resultSubmit">
+              Filter
+            </a> */}{" "}
+            Filter
           </button>
           <div className="clearFilter" onClick={handleClear}>
             <MdOutlineClose />
@@ -178,3 +210,16 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
+
+const ValueContainer = ({ children, ...props }) => {
+  const length = children[0].length;
+  let tmpChildren = [...children];
+  if (length >= 3) {
+    tmpChildren[0] = <div>{length} locations</div>;
+  }
+  return (
+    <components.ValueContainer {...props}>
+      {tmpChildren}
+    </components.ValueContainer>
+  );
+};

@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import PreviewSlider from "../previewSlider/PreviewSlider";
 import "./projectCard.scss";
 
-// const slide = categories[0].images.preview;
-
 const ProjectCard = ({ category }) => {
   const slide = category.images.preview;
   const name = category.name;
@@ -24,7 +22,6 @@ const ProjectCard = ({ category }) => {
         <Link to={`/projects/${id}`}>
           <PreviewSlider slides={slide} className="previewTest" />
         </Link>
-        {/* <PreviewSlider slides={slide} className="previewTest" /> */}
         <div className="complitionDateInfo">{completionDate}</div>
         <button className={hovered ? "active btnAboutProject" : "hidden"}>
           <Link to={`/projects/${id}`} target="_blank">

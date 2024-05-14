@@ -70,7 +70,6 @@ const PreviewSlider = ({ slides, testStyle = slideStyles }) => {
               <GoHorizontalRule />
             </div>
           ))}
-          {/* <div className="test">Choose now!</div> */}
         </div>
       </div>
     </div>

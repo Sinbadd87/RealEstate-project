@@ -12,8 +12,6 @@ const Map = ({ projects, initLng, initLat, initZoom = 7 }) => {
   const [lng, setLng] = useState(initLng);
   const [lat, setLat] = useState(initLat);
   const [zoom, setZoom] = useState(initZoom);
-  //   const lng = 34.883333;
-  //   const lat = 32.15;
 
   const points = projects.map((project) => {
     return {
@@ -57,11 +55,6 @@ const Map = ({ projects, initLng, initLat, initZoom = 7 }) => {
         source: "projects",
         filter: ["has", "point_count"],
         paint: {
-          // Use step expressions (https://docs.mapbox.com/style-spec/reference/expressions/#step)
-          // with three steps to implement three types of circles:
-          //   * Blue, 20px circles when point count is less than 100
-          //   * Yellow, 30px circles when point count is between 100 and 750
-          //   * Pink, 40px circles when point count is greater than or equal to 750
           "circle-color": [
             "step",
             ["get", "point_count"],

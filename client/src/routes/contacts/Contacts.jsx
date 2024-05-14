@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Map from "../../components/map/Map";
-// import categories from "../../seeds/categories.js";
 
 import "./contacts.scss";
 import { useGetProjectsQuery } from "../../api/projectApiSlice.js";

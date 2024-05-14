@@ -13,7 +13,6 @@ import Project from "./schemas/projectSchema.js";
 import User from "./schemas/userSchema.js";
 import Reserve from "./schemas/reserve.js";
 import Apartment from "./schemas/apartmentSchema.js";
-import { error } from "console";
 
 dotenv.config({ path: "../.env" });
 
@@ -116,7 +115,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(session(sessionConfig));
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, "..", "client", "dist")));
+app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 app.use(passport.initialize());
 app.use(passport.session());
 

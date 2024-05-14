@@ -42,12 +42,7 @@ const SearchBar = () => {
     dispatch(setMaxVal(max));
   }, [min, max]);
 
-  //  Trying another way to set min/max. Leave for later
-  // const getMin = (a, b) => Math.min(a, b);
-  //   console.log(categories.map((catrgory) => catrgory.minPrice).reduce(getMin));
-
   //   States
-  //   const [filteredItems, setFilteredItems] = useState(categories);
   const [minNum, setMinNum] = useState(min);
   const [maxNum, setMaxNum] = useState(max);
   const [compDate, setCompDate] = useState([]);
@@ -160,7 +155,6 @@ const SearchBar = () => {
                 onChange={({ min, max }) => {
                   setMinNum(min);
                   setMaxNum(max);
-                  //   console.log(`min = ${min}, max = ${max}`);
                 }}
               />
             )}
@@ -193,12 +187,7 @@ const SearchBar = () => {
           </label>
         </div>
         <div className="submitAndClearContainer">
-          <button className="btnSubmit">
-            {/* <a type="submit" className="resultSubmit">
-              Filter
-            </a> */}{" "}
-            Filter
-          </button>
+          <button className="btnSubmit">Filter</button>
           <div className="clearFilter" onClick={handleClear}>
             <MdOutlineClose />
             Clear

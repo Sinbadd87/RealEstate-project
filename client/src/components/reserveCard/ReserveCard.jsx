@@ -3,7 +3,7 @@ import { useDeleteReserveMutation } from "../../api/projectApiSlice";
 import "./reserveCard.scss";
 
 const ReserveCard = ({ image, price, name, id }) => {
-  const [deleteReserve, { isSuccess, isError }] = useDeleteReserveMutation();
+  const [deleteReserve] = useDeleteReserveMutation();
   const handleReserve = () => {
     alert("Call us: 050 000-00-00");
     // TODO: Create modal popup instead alert
@@ -11,7 +11,6 @@ const ReserveCard = ({ image, price, name, id }) => {
   const handleDeleteReserve = async () => {
     try {
       await deleteReserve(id);
-      console.log("deleted", isSuccess);
     } catch (error) {
       console.log(error);
     }

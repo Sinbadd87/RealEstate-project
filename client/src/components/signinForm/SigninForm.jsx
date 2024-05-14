@@ -27,7 +27,6 @@ const SignInForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("handleSubmit");
 
     try {
       const credentials = await login({
@@ -49,7 +48,6 @@ const SignInForm = () => {
     setFormFields({ ...formFields, [name]: value });
   };
   const userName = useSelector(selectCurrentUser);
-  console.log(userName, "username");
 
   return (
     <div className="sign-up-container">

@@ -43,16 +43,12 @@ const SignUpForm = () => {
         email,
         password,
       }).unwrap();
-      console.log(credentials.status);
       if (credentials) {
         dispatch(setCredentials(credentials));
         resetFormFields();
         navigate("/projects");
-      } else {
-        console.log(isUninitialized, isSuccess);
       }
     } catch (error) {
-      console.log(error);
       alert("User already exist");
       resetFormFields();
     }
@@ -64,7 +60,6 @@ const SignUpForm = () => {
     setFormFields({ ...formFields, [name]: value });
   };
   const userName = useSelector(selectCurrentUser);
-  console.log(isLoading, isSuccess, userName);
 
   return (
     <div className="sign-up-container">

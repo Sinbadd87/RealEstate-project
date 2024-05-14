@@ -1,10 +1,12 @@
 import SearchBar from "../../components/searchBar/SearchBar";
 import ProjectCategories from "../../components/projectCategories/ProjectCategories";
 import Map from "../../components/map/Map";
-import categories from "../../seeds/categories.js";
+import { useGetProjectsQuery } from "../../api/projectApiSlice";
 import "./projectPage.scss";
 
 const ProjectsPage = () => {
+  const getProjects = useGetProjectsQuery();
+  const categories = getProjects?.data;
   return (
     <div className="projectsPageContainer">
       <div className="projectPageMapContainer">

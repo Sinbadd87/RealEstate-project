@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./apartmentCard.scss";
 
 const ApartmentCard = ({ apartment }) => {
-  const { image, rooms, price, project, _id, reserved } = apartment;
+  const { image, rooms, price, _id, reserved } = apartment;
   const navigate = useNavigate();
   const [reserve] = useReserveMutation();
   const handleReserve = async (e) => {
@@ -16,7 +16,6 @@ const ApartmentCard = ({ apartment }) => {
       navigate("/reservation");
     } catch (error) {
       navigate("/auth");
-      console.log(error);
     }
   };
   const handleDisabledEvent = (e) => {

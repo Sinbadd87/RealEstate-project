@@ -1,5 +1,5 @@
 import ProjectCard from "../projectCard/ProjectCard";
-import "./projectcategories.scss";
+import "./projectCategories.scss";
 import {
   useFilterProjectsMutation,
   useGetProjectsQuery,

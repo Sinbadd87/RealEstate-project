@@ -32,7 +32,7 @@ const verifyCallback = async (accessToken, refreshToken, profile, done) => {
 passport.use(
   new GoogleStrategy(
     {
-      callbackURL: "/auth/google/callback",
+      callbackURL: "/api/auth/google/callback",
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       scope: ["profile", "email"],
@@ -331,6 +331,10 @@ app.delete("/api/reserve/:id", async (req, res) => {
       .json({ error: "You haven't permission to delete this reserve" });
   }
 });
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
+});
+
 app.listen(8000, async () => {
   await loadAllProjects();
   console.log("Server is running port 8000");

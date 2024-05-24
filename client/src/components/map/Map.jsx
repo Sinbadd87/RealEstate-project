@@ -6,7 +6,10 @@ import house from "/house.svg";
 import "./map.scss";
 
 const Map = ({ projects, initLng, initLat, initZoom = 7 }) => {
-  mapboxgl.accessToken = import.meta.env.VITE_API_MAP;
+  mapboxgl.accessToken =
+    import.meta.env.VITE_API_MAP ||
+    "pk.eyJ1Ijoic2luYmFkZDI3IiwiYSI6ImNsbW9zbTg5ODE3azYyaXM1ZWJwZGFoNzMifQ.mvA0RGIBQThF_0LQq8kZxw";
+  console.log(import.meta.env.VITE_API_MAP, process.env.VITE_API_MAP);
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(initLng);

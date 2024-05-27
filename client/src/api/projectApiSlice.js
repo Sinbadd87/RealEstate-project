@@ -8,7 +8,9 @@ export const projectsApiSlice = createApi({
   }),
   tagTypes: ["Reserves", "User", "Apartments"],
   endpoints: (build) => ({
-    getProjects: build.query({ query: () => ({ url: `/projects` }) }),
+    getProjects: build.query({
+      query: () => ({ url: `/projects` }),
+    }),
     getProjectById: build.query({
       query: (id) => ({ url: `/projects/${id}` }),
     }),

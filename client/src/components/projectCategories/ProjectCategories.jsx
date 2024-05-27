@@ -29,7 +29,7 @@ const ProjectCategories = () => {
 
   return (
     <div className="projectCategoriesContainer">
-      {getProjects.isSuccess &&
+      {projects &&
         projects.map((category) => {
           return <ProjectCard key={category.name} category={category} />;
         })}

@@ -150,10 +150,10 @@ app.get("/api/projects/:id/apartments", async (req, res) => {
 app.get(
   "/api/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:8000/auth",
+    failureRedirect: "/auth",
   }),
   (req, res) => {
-    res.redirect("http://localhost:8000/");
+    res.redirect("https://realestate-project-mq6u.onrender.com/reservation");
   }
 );
 

@@ -116,3 +116,14 @@ span {
     pointer-events: all;
     position: relative;
 }
+
+@media screen and (max-width:1320px) {
+
+    .slider {
+        width: 100%;
+    }
+
+    .thumb {
+        width: 488px;
+    }
+}

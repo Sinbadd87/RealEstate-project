@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Select, { components } from "react-select";
 import MultiRangeSlider from "../dualSlider/DualSlider";
 import { MdOutlineClose } from "react-icons/md";
+import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import {
   useFilterProjectsMutation,
   useGetProjectsQuery,
@@ -47,6 +48,7 @@ const SearchBar = () => {
   const [maxNum, setMaxNum] = useState(max);
   const [compDate, setCompDate] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [hideFilter, setHideFilter] = useState(true);
   const [filterProjects, { reset }] = useFilterProjectsMutation({
     fixedCacheKey: "sharedFilterProjects",
   });
@@ -83,7 +85,7 @@ const SearchBar = () => {
   const clearValue = () => {
     selectInputRef.current.clearValue();
   };
-  // TODO: Make Select and DualRange clear on button click!
+
   const handleClear = (e) => {
     e.preventDefault();
     setCompDate([]);
@@ -94,6 +96,7 @@ const SearchBar = () => {
     reset();
     dispatch(setProjects(categories));
   };
+
   // Select multi styles
   const colorStyles = {
     control: (styles) => ({
@@ -115,7 +118,7 @@ const SearchBar = () => {
     }),
     menu: (styles) => ({
       ...styles,
-      zIndex: "2",
+      zIndex: "10",
     }),
     option: (styles) => ({ ...styles, borderRadius: "8px" }),
     multiValue: (styles) => ({
@@ -129,11 +132,31 @@ const SearchBar = () => {
     }),
   };
 
+  //   Handle filter active/hide with responsive design
+  const handleHideFilter = (e) => {
+    e.preventDefault();
+    setHideFilter(!hideFilter);
+  };
+
   return (
     <div className="searchBarContainer">
       <h1>Our projects</h1>
+      <div className="responsiveContainer">
+        <a href="#Filter">
+          <button
+            className={hideFilter ? "btnFilter" : "activeBtnFilter"}
+            onClick={handleHideFilter}
+          >
+            <HiOutlineAdjustmentsHorizontal /> Filter
+          </button>
+        </a>
+      </div>
       <form onSubmit={handleSubmit} method="POST">
-        <div className="formContainer">
+        <div
+          className={
+            hideFilter ? "formContainer hiddenFilter" : "formContainer"
+          }
+        >
           <label>
             <h6>Choose location</h6>
             <Select
@@ -186,7 +209,14 @@ const SearchBar = () => {
             </div>
           </label>
         </div>
-        <div className="submitAndClearContainer">
+        <div
+          className={
+            hideFilter
+              ? "submitAndClearContainer hiddenFilter"
+              : "submitAndClearContainer"
+          }
+          id="Filter"
+        >
           <button className="btnSubmit">Filter</button>
           <div className="clearFilter" onClick={handleClear}>
             <MdOutlineClose />
